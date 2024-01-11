@@ -1,22 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
+using KinematicCharacterController;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Quaternion = UnityEngine.Quaternion;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, ICharacterController
 {
     private EmPControls _controls;
-    private CharacterController _characterController;
+    private KinematicCharacterMotor _characterMotor;
     public Transform cameraTransform;
     public float gravity = -9.81f;
     private float _yVelocity;
+    private float _cameraPitch;
     public float terminalVelocity = -10f;
     public float jumpForce = 5f;
     public float mouseSensitivity = 0.8f;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +28,8 @@ public class PlayerController : MonoBehaviour
         _controls.Enable();
         _controls.Ingame.Camera.performed += OnCameraMove;
         _controls.Ingame.Jump.performed += OnJump;
-        _characterController = GetComponent<CharacterController>();
+        _characterMotor = GetComponent<KinematicCharacterMotor>();
+        _characterMotor.CharacterController = this;
         //Hide and lock the cursor
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -33,52 +37,98 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Read current movement input (already normalized) and transform it to world space
-        Vector2 movement = _controls.Ingame.Move.ReadValue<Vector2>();
-        Vector3 move = new Vector3(movement.x, 0, movement.y);
-        move = transform.TransformDirection(move);
         
-        //Move the character controller horizontally accounting for Time.deltaTime
-        _characterController.Move(move * (Time.deltaTime * 5));
-        
-        //Apply gravity to vertical velocity if character is not grounded
-        if(!_characterController.isGrounded)
-            _yVelocity += gravity * Time.deltaTime;
-        
-        //Clamp to terminal velocity
-        if (_yVelocity < terminalVelocity)
-            _yVelocity = terminalVelocity;
-
-        //Reset vertical velocity when grounded
-        if (_yVelocity < 0 && _characterController.isGrounded)
-            _yVelocity = 0;
-        
-        //Apply vertical velocity to character controller accounting for Time.deltaTime
-        _characterController.Move(new Vector3(0, _yVelocity, 0) * Time.deltaTime);
     }
 
     //Every frame while the mouse is moved
     void OnCameraMove(InputAction.CallbackContext context)
     {
-        //Get Mouse movement (already accounts for Time.deltaTime)
-        Vector2 cameraMovement = context.ReadValue<Vector2>();
         
-        //Rotate the entire player object on the y axis and the camera on the x axis
-        transform.Rotate(Vector3.up, cameraMovement.x * mouseSensitivity);
-        cameraTransform.Rotate(Vector3.right, -cameraMovement.y * mouseSensitivity);
-        
-        //Clamp the camera rotation so it can't go upside down
-        cameraTransform.localEulerAngles = new Vector3(cameraTransform.localEulerAngles.x, 0, 0);
     }
     
     //Whenever jump is pressed
     void OnJump(InputAction.CallbackContext context)
     {
         //This should only allow jumping when the character is grounded but doesn't work 100% of the time for some reason
-        if (_characterController.isGrounded)
+        if (_characterMotor.GroundingStatus.IsStableOnGround)
         {
             _yVelocity = jumpForce;
         }
     }
+
+    public void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
+    {
+        //Get Mouse movement (already accounts for Time.deltaTime)
+        Vector2 cameraMovement = _controls.Ingame.Camera.ReadValue<Vector2>();
+        
+        //Rotate the entire player object on the y axis and the camera on the x axis
+        var cameraYawDelta = cameraMovement.x * mouseSensitivity;
+        _cameraPitch -= cameraMovement.y * mouseSensitivity;
+        _cameraPitch = Mathf.Clamp(_cameraPitch, -90, 90);
+        
+        cameraTransform.localEulerAngles = new Vector3(_cameraPitch, 0, 0);
+        Quaternion playerRotation = Quaternion.Euler(new Vector3(0, cameraYawDelta, 0));
+        currentRotation = transform.rotation * playerRotation;
+
+    }
+
+    public void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)
+    {
+        //Read current movement input (already normalized) and transform it to world space
+        Vector2 movement = _controls.Ingame.Move.ReadValue<Vector2>();
+
+        //Apply gravity to vertical velocity if character is not grounded
+        if(!_characterMotor.GroundingStatus.IsStableOnGround)
+            _yVelocity += gravity * deltaTime;
+        
+        //Clamp to terminal velocity
+        if (_yVelocity < terminalVelocity)
+            _yVelocity = terminalVelocity;
+
+        //Reset vertical velocity when grounded
+        if (_yVelocity < 0 && _characterMotor.GroundingStatus.IsStableOnGround)
+            _yVelocity = 0;
+        
+        currentVelocity = transform.TransformDirection(new Vector3(movement.x, _yVelocity, movement.y)*5);
+    }
+
+    public void BeforeCharacterUpdate(float deltaTime)
+    {
+    }
+
+    public void PostGroundingUpdate(float deltaTime)
+    {
+    }
+
+    public void AfterCharacterUpdate(float deltaTime)
+    {
+    }
+
+    public bool IsColliderValidForCollisions(Collider coll)
+    {
+        return !coll.isTrigger;
+    }
+
+    public void OnGroundHit(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, ref HitStabilityReport hitStabilityReport)
+    {
+    }
+
+    public void OnMovementHit(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint,
+        ref HitStabilityReport hitStabilityReport)
+    {
+    }
+
+    public void ProcessHitStabilityReport(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, Vector3 atCharacterPosition,
+        Quaternion atCharacterRotation, ref HitStabilityReport hitStabilityReport)
+    {
+    }
+
+    public void OnDiscreteCollisionDetected(Collider hitCollider)
+    {
+    }
     
+    float nfmod(float a,float b)
+    {
+        return a - b * Mathf.Floor(a / b);
+    }
 }
