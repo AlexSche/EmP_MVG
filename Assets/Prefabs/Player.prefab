@@ -65,8 +65,8 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
+  near clip plane: 0.01
+  far clip plane: 100
   field of view: 70
   orthographic: 0
   orthographic size: 5
@@ -151,7 +151,7 @@ GameObject:
   - component: {fileID: 8339598540721105263}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -186,9 +186,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraTransform: {fileID: 6062471475432481661}
   urpData: {fileID: 11400000, guid: 52b9c244115ff5a4bb321d8f915bad33, type: 2}
-  gravity: -9.81
-  terminalVelocity: -10
-  jumpForce: 5
+  gravity: -4.5
+  terminalVelocity: -0.9
+  jumpForce: 0.3
   mouseSensitivity: 0.1
 --- !u!136 &3331934489731027871
 CapsuleCollider:
