@@ -101,7 +101,7 @@ public class PlayerController : MonoBehaviour, ICharacterController
         if (_yVelocity < 0 && _characterMotor.GroundingStatus.IsStableOnGround)
             _yVelocity = 0;
         
-        currentVelocity = transform.TransformDirection(new Vector3(movement.x, _yVelocity, movement.y)*5);
+        currentVelocity = transform.TransformDirection(new Vector3(movement.x*0.5f, _yVelocity, movement.y*0.5f)*5);
     }
 
     public void BeforeCharacterUpdate(float deltaTime)
