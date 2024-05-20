@@ -4,6 +4,7 @@ using System.Numerics;
 using KinematicCharacterController;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.Universal;
 using Quaternion = UnityEngine.Quaternion;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
@@ -13,12 +14,17 @@ public class PlayerController : MonoBehaviour, ICharacterController
     private EmPControls _controls;
     private KinematicCharacterMotor _characterMotor;
     public Transform cameraTransform;
+    public UniversalRendererData urpData;
     public float gravity = -9.81f;
     private float _yVelocity;
     private float _cameraPitch;
     public float terminalVelocity = -10f;
     public float jumpForce = 5f;
     public float mouseSensitivity = 0.8f;
+
+    private Vector3 _initialLightDirection;
+    private Material _fsMat;
+    private int _lightDirectionID;
 
     // Start is called before the first frame update
     void Start()
@@ -32,12 +38,18 @@ public class PlayerController : MonoBehaviour, ICharacterController
         _characterMotor.CharacterController = this;
         //Hide and lock the cursor
         Cursor.lockState = CursorLockMode.Locked;
+        ScriptableRendererFeature feature = urpData.rendererFeatures.Find(srf => srf.name.Equals("FSOutline"));
+        if (feature is FullScreenPassRendererFeature fsp)
+        {
+            _fsMat = fsp.passMaterial;
+            _lightDirectionID = Shader.PropertyToID("_LightDirection");
+            _initialLightDirection = _fsMat.GetVector(_lightDirectionID);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        
     }
 
     //Every frame while the mouse is moved
@@ -89,7 +101,7 @@ public class PlayerController : MonoBehaviour, ICharacterController
         if (_yVelocity < 0 && _characterMotor.GroundingStatus.IsStableOnGround)
             _yVelocity = 0;
         
-        currentVelocity = transform.TransformDirection(new Vector3(movement.x, _yVelocity, movement.y)*5);
+        currentVelocity = transform.TransformDirection(new Vector3(movement.x*0.5f, _yVelocity, movement.y*0.5f)*5);
     }
 
     public void BeforeCharacterUpdate(float deltaTime)
@@ -130,5 +142,15 @@ public class PlayerController : MonoBehaviour, ICharacterController
     float nfmod(float a,float b)
     {
         return a - b * Mathf.Floor(a / b);
+    }
+
+    public void UpdateLightDirection(Vector3 direction)
+    {
+        _fsMat.SetVector(_lightDirectionID, direction);
+    }
+
+    public Vector3 GetLightDirection()
+    {
+        return _fsMat.GetVector(_lightDirectionID);
     }
 }
