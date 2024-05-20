@@ -134,6 +134,34 @@ public partial class @EmPControls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""VR-LeftController"",
+            ""id"": ""509e892b-a5e0-4568-b868-d05e95748231"",
+            ""actions"": [
+                {
+                    ""name"": ""Move"",
+                    ""type"": ""Value"",
+                    ""id"": ""a1711478-badf-4d84-8a3f-18fb7e101412"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""081b4a17-07eb-4333-a0ad-a945116602e3"",
+                    ""path"": ""<XRController>{LeftHand}/{Primary2DAxis}"",
+                    ""interactions"": """",
+                    ""processors"": ""StickDeadzone"",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -143,6 +171,9 @@ public partial class @EmPControls: IInputActionCollection2, IDisposable
         m_Ingame_Move = m_Ingame.FindAction("Move", throwIfNotFound: true);
         m_Ingame_Camera = m_Ingame.FindAction("Camera", throwIfNotFound: true);
         m_Ingame_Jump = m_Ingame.FindAction("Jump", throwIfNotFound: true);
+        // VR-LeftController
+        m_VRLeftController = asset.FindActionMap("VR-LeftController", throwIfNotFound: true);
+        m_VRLeftController_Move = m_VRLeftController.FindAction("Move", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -262,10 +293,60 @@ public partial class @EmPControls: IInputActionCollection2, IDisposable
         }
     }
     public IngameActions @Ingame => new IngameActions(this);
+
+    // VR-LeftController
+    private readonly InputActionMap m_VRLeftController;
+    private List<IVRLeftControllerActions> m_VRLeftControllerActionsCallbackInterfaces = new List<IVRLeftControllerActions>();
+    private readonly InputAction m_VRLeftController_Move;
+    public struct VRLeftControllerActions
+    {
+        private @EmPControls m_Wrapper;
+        public VRLeftControllerActions(@EmPControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_VRLeftController_Move;
+        public InputActionMap Get() { return m_Wrapper.m_VRLeftController; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(VRLeftControllerActions set) { return set.Get(); }
+        public void AddCallbacks(IVRLeftControllerActions instance)
+        {
+            if (instance == null || m_Wrapper.m_VRLeftControllerActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_VRLeftControllerActionsCallbackInterfaces.Add(instance);
+            @Move.started += instance.OnMove;
+            @Move.performed += instance.OnMove;
+            @Move.canceled += instance.OnMove;
+        }
+
+        private void UnregisterCallbacks(IVRLeftControllerActions instance)
+        {
+            @Move.started -= instance.OnMove;
+            @Move.performed -= instance.OnMove;
+            @Move.canceled -= instance.OnMove;
+        }
+
+        public void RemoveCallbacks(IVRLeftControllerActions instance)
+        {
+            if (m_Wrapper.m_VRLeftControllerActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IVRLeftControllerActions instance)
+        {
+            foreach (var item in m_Wrapper.m_VRLeftControllerActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_VRLeftControllerActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public VRLeftControllerActions @VRLeftController => new VRLeftControllerActions(this);
     public interface IIngameActions
     {
         void OnMove(InputAction.CallbackContext context);
         void OnCamera(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+    }
+    public interface IVRLeftControllerActions
+    {
+        void OnMove(InputAction.CallbackContext context);
     }
 }
