@@ -1867,8 +1867,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bf296fc962d7184ab14ad1841598d5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_System: {fileID: 1725982596}
-  m_MoveSpeed: 1
+  m_System: {fileID: 0}
+  m_MoveSpeed: 4
   m_EnableStrafe: 1
   m_EnableFly: 0
   m_UseGravity: 1
@@ -1885,7 +1885,8 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 0}
+    m_Reference: {fileID: -7484373527617250101, guid: eba8cc9eeb3439544bf93cb2e3c79227,
+      type: 3}
   m_RightHandMoveAction:
     m_UseReference: 0
     m_Action:
