@@ -1,31 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using KinematicCharacterController;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Quaternion = UnityEngine.Quaternion;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
-public class VRPlayerController : MonoBehaviour, ICharacterController
+public class VRPlayerController : PlayerController
 {
     private EmPControls _controls;
-    private KinematicCharacterMotor _characterMotor;
-    public float gravity = -9.81f;
-    private float _yVelocity;
-    private float _cameraPitch;
-    public float terminalVelocity = -10f;
-    public float jumpForce = 5f;
-    public float mouseSensitivity = 0.8f;
+    public Transform trackedCamera;
 
     // Start is called before the first frame update
-    void Start()
+    public override void Start()
+    {
+        base.Start(); 
+    }
+
+    protected override void SetupControls()
     {
         //Create a control scheme instance and register listeners
         _controls = new EmPControls();
         _controls.Enable();
-        _characterMotor = GetComponent<KinematicCharacterMotor>();
-        _characterMotor.CharacterController = this;
     }
 
     // Update is called once per frame
@@ -45,23 +43,12 @@ public class VRPlayerController : MonoBehaviour, ICharacterController
     {
     }
 
-    public void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
+    public override void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
     {
-        //Get Mouse movement (already accounts for Time.deltaTime)
-        Vector2 cameraMovement = _controls.Ingame.Camera.ReadValue<Vector2>();
-        
-        //Rotate the entire player object on the y axis and the camera on the x axis
-        var cameraYawDelta = cameraMovement.x * mouseSensitivity;
-        _cameraPitch -= cameraMovement.y * mouseSensitivity;
-        _cameraPitch = Mathf.Clamp(_cameraPitch, -90, 90);
-        
-        //cameraTransform.localEulerAngles = new Vector3(_cameraPitch, 0, 0);
-        Quaternion playerRotation = Quaternion.Euler(new Vector3(0, cameraYawDelta, 0));
-        currentRotation = transform.rotation * playerRotation;
 
     }
 
-    public void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)
+    public override void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)
     {
         //Read current movement input (already normalized) and transform it to world space
         Vector2 movement = _controls.VRLeftController.Move.ReadValue<Vector2>();
@@ -77,20 +64,12 @@ public class VRPlayerController : MonoBehaviour, ICharacterController
         //Reset vertical velocity when grounded
         if (_yVelocity < 0 && _characterMotor.GroundingStatus.IsStableOnGround)
             _yVelocity = 0;
-        
-        currentVelocity = transform.TransformDirection(new Vector3(movement.x, _yVelocity, movement.y)*5);
-    }
 
-    public void BeforeCharacterUpdate(float deltaTime)
-    {
-    }
-
-    public void PostGroundingUpdate(float deltaTime)
-    {
-    }
-
-    public void AfterCharacterUpdate(float deltaTime)
-    {
+        Vector3 localCameraRotation = trackedCamera.localEulerAngles;
+        Quaternion yAxis = Quaternion.Euler(new Vector3(0, localCameraRotation.y, 0));
+        Vector3 rotatedMovement = new Vector3(movement.x, 0, movement.y);
+        rotatedMovement = yAxis * rotatedMovement;
+        currentVelocity = transform.TransformDirection(new Vector3(rotatedMovement.x, _yVelocity, rotatedMovement.z)*5);
     }
 
     public bool IsColliderValidForCollisions(Collider coll)
@@ -114,10 +93,5 @@ public class VRPlayerController : MonoBehaviour, ICharacterController
 
     public void OnDiscreteCollisionDetected(Collider hitCollider)
     {
-    }
-    
-    float nfmod(float a,float b)
-    {
-        return a - b * Mathf.Floor(a / b);
     }
 }

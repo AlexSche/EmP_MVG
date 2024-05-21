@@ -12,28 +12,24 @@ using Vector3 = UnityEngine.Vector3;
 public class PlayerController : MonoBehaviour, ICharacterController
 {
     private EmPControls _controls;
-    private KinematicCharacterMotor _characterMotor;
+    protected KinematicCharacterMotor _characterMotor;
     public Transform cameraTransform;
     public UniversalRendererData urpData;
     public float gravity = -9.81f;
-    private float _yVelocity;
-    private float _cameraPitch;
+    protected float _yVelocity;
+    protected float _cameraPitch;
     public float terminalVelocity = -10f;
     public float jumpForce = 5f;
     public float mouseSensitivity = 0.8f;
 
-    private Vector3 _initialLightDirection;
-    private Material _fsMat;
-    private int _lightDirectionID;
+    protected Vector3 _initialLightDirection;
+    protected Material _fsMat;
+    protected int _lightDirectionID;
 
     // Start is called before the first frame update
-    void Start()
+    public virtual void Start()
     {
-        //Create a control scheme instance and register listeners
-        _controls = new EmPControls();
-        _controls.Enable();
-        _controls.Ingame.Camera.performed += OnCameraMove;
-        _controls.Ingame.Jump.performed += OnJump;
+        SetupControls();
         _characterMotor = GetComponent<KinematicCharacterMotor>();
         _characterMotor.CharacterController = this;
         //Hide and lock the cursor
@@ -45,6 +41,15 @@ public class PlayerController : MonoBehaviour, ICharacterController
             _lightDirectionID = Shader.PropertyToID("_LightDirection");
             _initialLightDirection = _fsMat.GetVector(_lightDirectionID);
         }
+    }
+
+    protected virtual void SetupControls()
+    {
+        //Create a control scheme instance and register listeners
+        _controls = new EmPControls();
+                _controls.Enable();
+                _controls.Ingame.Camera.performed += OnCameraMove;
+                _controls.Ingame.Jump.performed += OnJump;
     }
 
     // Update is called once per frame
@@ -68,7 +73,7 @@ public class PlayerController : MonoBehaviour, ICharacterController
         }
     }
 
-    public void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
+    public virtual void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
     {
         //Get Mouse movement (already accounts for Time.deltaTime)
         Vector2 cameraMovement = _controls.Ingame.Camera.ReadValue<Vector2>();
@@ -84,7 +89,7 @@ public class PlayerController : MonoBehaviour, ICharacterController
 
     }
 
-    public void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)
+    public virtual void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)
     {
         //Read current movement input (already normalized) and transform it to world space
         Vector2 movement = _controls.Ingame.Move.ReadValue<Vector2>();
