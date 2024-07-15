@@ -2588,11 +2588,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioClips:
-  - {fileID: 8300000, guid: 2eed1afa1f156ad41b48ac47186e46b4, type: 3}
-  - {fileID: 8300000, guid: ff58d60da0308cf48a4cfa1e5107b80d, type: 3}
-  - {fileID: 8300000, guid: 25622ab6a5dd26f42a4d53f6b906e673, type: 3}
-  - {fileID: 8300000, guid: a0c447907916ea2499dbe79e048aa135, type: 3}
-  - {fileID: 8300000, guid: a1ff4c4bdff515c428f03c08c7a2ef33, type: 3}
+  - {fileID: 8300000, guid: ab8a7d48415facd49a25faf7920ce0c8, type: 3}
+  - {fileID: 8300000, guid: 2268a41549e4ae7419a38d78bf27ac31, type: 3}
+  - {fileID: 8300000, guid: 00bfc138d8479d04d8851975692f4aa1, type: 3}
+  - {fileID: 8300000, guid: 7f9e76edc10c7d04ba3c31a66316dfa5, type: 3}
+  - {fileID: 8300000, guid: f4ce73aa2b5e20d498b44308f2c4253f, type: 3}
 --- !u!82 &253216636291234735
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2606,7 +2606,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.7
   m_Pitch: 1
   Loop: 0
   Mute: 0
