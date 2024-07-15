@@ -8,12 +8,11 @@ public class GeckoController : MonoBehaviour
     NavMeshAgent agent;
     Animator animator;
     [SerializeField] LayerMask groundLayer;
-
-    // Move around
     Vector3 destPoint;
-    bool walkpointSet;
+    
     [SerializeField] float walkingRange = 9;
-    // Start is called before the first frame update
+    private bool isIdling = false;
+    private bool isLookingForDestination;
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -27,16 +26,18 @@ public class GeckoController : MonoBehaviour
     }
 
     void walkAround() {
-        if (!walkpointSet) {
+        if (isLookingForDestination) {
             searchForDestination();
         }
-        if (walkpointSet) {
+        if (!isLookingForDestination && !(Vector3.Distance(transform.position, destPoint) < 0.5f)) {
             agent.SetDestination(destPoint);
-            animator.Play("Armature_Walking");
+            animator.SetBool("isWalking", true);
         }
-        if(Vector3.Distance(transform.position, destPoint) < 2) {
-                walkpointSet = false;
-                animator.Play("Armature_Idle");
+        if(Vector3.Distance(transform.position, destPoint) < 0.5f) {
+            if (!isIdling) {
+            isIdling = true;
+            StartCoroutine(startIdlingForSeconds(6f));
+            }   
         }
     }
 
@@ -47,7 +48,14 @@ public class GeckoController : MonoBehaviour
         destPoint = new Vector3(transform.position.x + x, transform.position.y, transform.position.z + z);
         if (Physics.Raycast(destPoint, Vector3.down, groundLayer))
         {
-            walkpointSet = true;
+            isLookingForDestination = false;
         }
+    }
+
+    private IEnumerator startIdlingForSeconds(float waitTime) {
+        animator.SetBool("isWalking", false);
+        yield return new WaitForSeconds(waitTime);
+        isLookingForDestination = true;
+        isIdling = false;
     }
 }
