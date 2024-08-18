@@ -2,8 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using KinematicCharacterController;
 using Unity.VisualScripting;
+using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.XR;
+using UnityEngine.XR.Management;
 using Quaternion = UnityEngine.Quaternion;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
@@ -12,11 +15,15 @@ public class VRPlayerController : PlayerController
 {
     private EmPControls _controls;
     public Transform trackedCamera;
+    public XROrigin xrOrigin;
 
+    private XRInputSubsystem _xrInputSubsystem;
+
+    private float _currentFadeValue = 0f;
     // Start is called before the first frame update
     public override void Start()
     {
-        base.Start(); 
+        base.Start();
     }
 
     protected override void SetupControls()
@@ -24,6 +31,11 @@ public class VRPlayerController : PlayerController
         //Create a control scheme instance and register listeners
         _controls = new EmPControls();
         _controls.Enable();
+
+        var xrSettings = XRGeneralSettings.Instance;
+        var xrManager = xrSettings.Manager;
+        var xrLoader = xrManager.activeLoader;
+        _xrInputSubsystem = xrLoader.GetLoadedSubsystem<XRInputSubsystem>();
     }
 
     // Update is called once per frame
@@ -52,6 +64,8 @@ public class VRPlayerController : PlayerController
     {
         //Read current movement input (already normalized) and transform it to world space
         Vector2 movement = _controls.VRLeftController.Move.ReadValue<Vector2>();
+        if (movement == Vector2.zero)
+            movement = _controls.Ingame.Move.ReadValue<Vector2>();
 
         //Apply gravity to vertical velocity if character is not grounded
         if(!_characterMotor.GroundingStatus.IsStableOnGround)
@@ -70,6 +84,20 @@ public class VRPlayerController : PlayerController
         Vector3 rotatedMovement = new Vector3(movement.x, 0, movement.y);
         rotatedMovement = yAxis * rotatedMovement;
         currentVelocity = transform.TransformDirection(new Vector3(rotatedMovement.x, _yVelocity, rotatedMovement.z)*5);
+        var currentOffset = findTrackingOffset();
+        if (currentOffset.magnitude <= 0.1f && _currentFadeValue == 0f) return;
+        _currentFadeValue = Mathf.Clamp(Mathf.InverseLerp(0.1f, 0.15f, currentOffset.magnitude), 0f, 1f);
+        _fsMat.SetFloat(_fadeToBlackID, _currentFadeValue);
+    }
+
+    private Vector3 findTrackingOffset()
+    {
+        var cameraPos = trackedCamera.transform.position;
+        var playerPos = transform.position;
+        var delta = cameraPos - playerPos;
+        var localDelta = transform.InverseTransformVector(delta);
+        localDelta = Vector3.Scale(localDelta, new Vector3(1f, 0f, 1f));
+        return transform.TransformDirection(localDelta);
     }
 
     public bool IsColliderValidForCollisions(Collider coll)
