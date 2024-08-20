@@ -39,6 +39,7 @@ public class Teleporter : MonoBehaviour
         }
     }
 
+    #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         if (teleportTarget == null) return;
@@ -55,4 +56,5 @@ public class Teleporter : MonoBehaviour
             Gizmos.color = Color.red;
         Gizmos.DrawLine(transform.position, teleportTarget.transform.position);
     }
+    #endif
 }
