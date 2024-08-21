@@ -29,10 +29,9 @@ namespace Unity.Template.VR
             Vector3 targetPos;
             Vector3 targetRot;
             Vector3 targetScale;
-            Debug.Log("LogicstateChange");
             if (state)
             {
-                targetPos = _initialPosition + translateDelta;
+                targetPos = _initialPosition + transform.InverseTransformDirection(translateDelta);
                 targetRot = _initialEulerAngles + rotationDelta;
                 targetScale = _initialScale + scaleDelta;
             }
