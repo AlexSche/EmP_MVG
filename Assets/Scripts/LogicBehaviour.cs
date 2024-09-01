@@ -12,17 +12,7 @@ public class LogicBehaviour : MonoBehaviour, LogicStateProvider
     private bool _hasDependency = false;
 
     [SerializeField]
-    private LogicDependency _dependencyInt;
-    
-    public LogicDependency Dependency
-    {
-        get => _dependencyInt;
-        set
-        {
-            _dependencyInt = value;
-            _hasDependency = value.isValid();
-        }
-    }
+    private LogicDependencyWithChildren<LogicDependencyWithChildren<LogicDependencyWithChildren<LogicDependencyWithChildren<LogicDependencyWithChildren<LogicDependencyProxy>>>>> _dependencyInt;
 
 
     public void Start()
