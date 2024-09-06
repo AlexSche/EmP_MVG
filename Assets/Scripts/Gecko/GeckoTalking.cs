@@ -8,11 +8,9 @@ public class GeckoTalking : MonoBehaviour
     private bool isSpeaking = false;
     private bool shouldStopTalking = false;
     public DialogueText dialogueText;
-    private string[] testDialogue = new string[] { "Hallo, hier in der Ecke!", "Cool, dass du hier bist. Ich brauche nämlich Hilfe.", "Kannst du mich von der Decke holen?" };
 
     void Start()
     {
-        dialogueText.startDialogue(testDialogue, this);
         audioSourceVoice = GetComponent<AudioSource>();
     }
 

@@ -21,6 +21,8 @@ public class DialogueText : MonoBehaviour
         tmpObject = GetComponentInChildren<TMP_Text>();
         textWriter = GetComponent<TextWriter>();
         audioSourceNotification = GetComponent<AudioSource>();
+
+        gameObject.SetActive(false);
     }
 
     private void OnDestroy()
@@ -33,6 +35,7 @@ public class DialogueText : MonoBehaviour
     {
         this.dialogue = dialogue;
         this.gecko = geckoTalking;
+        gameObject.SetActive(true);
         StartCoroutine(dialogueIsStarting());
     }
 
@@ -54,6 +57,7 @@ public class DialogueText : MonoBehaviour
     {
         audioSourceNotification.Play();
         yield return new WaitForSeconds(1);
+        gecko.StopAllCoroutines();
         gameObject.SetActive(false);
     }
 
@@ -62,7 +66,6 @@ public class DialogueText : MonoBehaviour
         tmpObject.text = "Sprache wird übersetzt...";
         audioSourceNotification.Play();
         yield return new WaitForSeconds(2);
-        gameObject.SetActive(true);
         if (dialogue != null && dialogue.Length > 0)
         {
             dialoguePosition = 0;
