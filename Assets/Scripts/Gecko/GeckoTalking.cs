@@ -6,7 +6,7 @@ using UnityEngine;
 public class GeckoTalking : MonoBehaviour
 {
     [SerializeField] AudioClip[] audioClips;
-    private AudioSource audioSource;
+    private AudioSource audioSourceVoice;
     private bool isSpeaking = false;
     private bool shouldStopTalking = false;
 
@@ -26,10 +26,10 @@ public class GeckoTalking : MonoBehaviour
     IEnumerator speakGibberish(AudioClip[] clips) {
         isSpeaking = true;
         for(int i = 0; i <= clips.Length-1; i++) {
-            audioSource.Stop();
-            audioSource.clip = clips[i];
-            audioSource.Play();
-            while (audioSource.isPlaying) {
+            audioSourceVoice.Stop();
+            audioSourceVoice.clip = clips[i];
+            audioSourceVoice.Play();
+            while (audioSourceVoice.isPlaying) {
                 yield return null;
             }
         }

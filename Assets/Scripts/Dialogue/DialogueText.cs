@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,34 +9,30 @@ public class DialogueText : MonoBehaviour
     private TMP_Text tmpObject;
     private string[] dialogue;
     private int dialoguePosition;
+    private AudioSource audioSourceNotification;
+    private AudioSource audioSourceVoice;
 
     public InputActionReference continueDialogueAction;
-    private void Awake() {
+    private void Awake()
+    {
         continueDialogueAction.action.Enable();
         continueDialogueAction.action.performed += continueDialogue;
-    }
 
-    private void OnDestroy() {
-        continueDialogueAction.action.Disable();
-        continueDialogueAction.action.performed -= continueDialogue;
-    }
-
-    void Start()
-    {   
         tmpObject = GetComponentInChildren<TMP_Text>();
         textWriter = GetComponent<TextWriter>();
+        audioSourceNotification = GetComponent<AudioSource>();
+    }
+
+    private void OnDestroy()
+    {
+        continueDialogueAction.action.Disable();
+        continueDialogueAction.action.performed -= continueDialogue;
     }
 
     public void startDialogue(string[] dialogue)
     {
         this.dialogue = dialogue;
-        this.gameObject.SetActive(true);
-        // TODO: play audio cue
-        if (dialogue != null && dialogue.Length > 0)
-        {
-            dialoguePosition = 0;
-            textWriter.addWriter(tmpObject, dialogue[dialoguePosition]);
-        }
+        StartCoroutine(dialogueIsStarting());
     }
 
     void continueDialogue(InputAction.CallbackContext context)
@@ -54,7 +51,20 @@ public class DialogueText : MonoBehaviour
 
     void stopDialogue()
     {
-        this.gameObject.SetActive(false);
-        // TODO: play audio cue
+        gameObject.SetActive(false);
+        audioSourceNotification.Play();
+    }
+
+    IEnumerator dialogueIsStarting()
+    {
+        tmpObject.text = "Sprache wird übersetzt...";
+        audioSourceNotification.Play();
+        yield return new WaitForSeconds(2);
+        gameObject.SetActive(true);
+        if (dialogue != null && dialogue.Length > 0)
+        {
+            dialoguePosition = 0;
+            textWriter.addWriter(tmpObject, dialogue[dialoguePosition]);
+        }
     }
 }
