@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 
 public class DialogueText : MonoBehaviour
 {
+    private TextWriter textWriter;
     private TMP_Text tmpObject;
     private string[] dialogue;
     private int dialoguePosition;
@@ -22,6 +23,7 @@ public class DialogueText : MonoBehaviour
     void Start()
     {   
         tmpObject = GetComponentInChildren<TMP_Text>();
+        textWriter = GetComponent<TextWriter>();
     }
 
     public void startDialogue(string[] dialogue)
@@ -32,7 +34,7 @@ public class DialogueText : MonoBehaviour
         if (dialogue != null && dialogue.Length > 0)
         {
             dialoguePosition = 0;
-            tmpObject.text = dialogue[dialoguePosition];
+            textWriter.addWriter(tmpObject, dialogue[dialoguePosition]);
         }
     }
 
