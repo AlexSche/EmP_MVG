@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ public class TextWriter : MonoBehaviour
     private int characterIndex;
     private float timePerCharacter = 0.1f;
     private float timer;
+    private Action onComplete;
 
     void Update()
     {
@@ -23,15 +25,17 @@ public class TextWriter : MonoBehaviour
 
                 if (characterIndex >= textToWrite.Length) {
                     tmpObject = null;
+                    if (onComplete != null) onComplete();
                     return;
                 }
             }
         }
     }
 
-    public void addWriter(TMP_Text tmpObject, string textToWrite) {
+    public void addWriter(TMP_Text tmpObject, string textToWrite, Action onComplete) {
         this.tmpObject = tmpObject;
         this.textToWrite = textToWrite;
+        this.onComplete = onComplete;
         characterIndex = 0;
     }
 }

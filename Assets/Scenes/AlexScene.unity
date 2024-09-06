@@ -1767,6 +1767,16 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 00bfc138d8479d04d8851975692f4aa1, type: 3}
   - {fileID: 8300000, guid: 7f9e76edc10c7d04ba3c31a66316dfa5, type: 3}
   - {fileID: 8300000, guid: f4ce73aa2b5e20d498b44308f2c4253f, type: 3}
+  - {fileID: 8300000, guid: ebf70881453d27341bfbfdc52ab8a479, type: 3}
+  - {fileID: 8300000, guid: a6746ecb788fe364a9e23460012130d1, type: 3}
+  - {fileID: 8300000, guid: a2f9104694169914ab0cc30839386166, type: 3}
+  - {fileID: 8300000, guid: bd3c16bb0f8ad7a4e9bd05db3b414f1e, type: 3}
+  - {fileID: 8300000, guid: c75b4f92b9823d345bda4d6c25024d31, type: 3}
+  - {fileID: 8300000, guid: 88f97cec703f44649bae85efe2b47629, type: 3}
+  - {fileID: 8300000, guid: bd648002b6da47843b017014e970e089, type: 3}
+  - {fileID: 8300000, guid: a40d5dfd7ec9239408ff17bbefcbe399, type: 3}
+  - {fileID: 8300000, guid: 9ccb13d3d3d54da46b9a917b93f0bad5, type: 3}
+  - {fileID: 8300000, guid: 24090dbc26f8cf84891c29cddf824535, type: 3}
   dialogueText: {fileID: 812182952}
 --- !u!82 &253216636291234735
 AudioSource:

@@ -11,7 +11,7 @@ public class DialogueText : MonoBehaviour
     private int dialoguePosition;
     private AudioSource audioSourceNotification;
     private AudioSource audioSourceVoice;
-
+    private GeckoTalking gecko;
     public InputActionReference continueDialogueAction;
     private void Awake()
     {
@@ -29,9 +29,10 @@ public class DialogueText : MonoBehaviour
         continueDialogueAction.action.performed -= continueDialogue;
     }
 
-    public void startDialogue(string[] dialogue)
+    public void startDialogue(string[] dialogue, GeckoTalking geckoTalking)
     {
         this.dialogue = dialogue;
+        this.gecko = geckoTalking;
         StartCoroutine(dialogueIsStarting());
     }
 
@@ -41,18 +42,19 @@ public class DialogueText : MonoBehaviour
         if (dialoguePosition < dialogue.Length - 1)
         {
             dialoguePosition++;
-            tmpObject.text = dialogue[dialoguePosition];
+            useTextwriter(tmpObject, dialogue[dialoguePosition]);
         }
         else
         {
-            stopDialogue();
+           StartCoroutine(stopDialogue());
         }
     }
 
-    void stopDialogue()
+    IEnumerator stopDialogue()
     {
-        gameObject.SetActive(false);
         audioSourceNotification.Play();
+        yield return new WaitForSeconds(1);
+        gameObject.SetActive(false);
     }
 
     IEnumerator dialogueIsStarting()
@@ -64,7 +66,13 @@ public class DialogueText : MonoBehaviour
         if (dialogue != null && dialogue.Length > 0)
         {
             dialoguePosition = 0;
-            textWriter.addWriter(tmpObject, dialogue[dialoguePosition]);
+            useTextwriter(tmpObject, dialogue[dialoguePosition]);
         }
+    }
+
+
+    void useTextwriter(TMP_Text tmpObject, string textToWrite) {
+        gecko.speakGibberishOnLoop();
+        textWriter.addWriter(tmpObject, dialogue[dialoguePosition], gecko.stopTalking);
     }
 }
