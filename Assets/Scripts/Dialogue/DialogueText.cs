@@ -1,39 +1,58 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class DialogueText: MonoBehaviour
+public class DialogueText : MonoBehaviour
 {
-    private GameObject panel;
     private TMP_Text tmpObject;
     private string[] dialogue;
     private int dialoguePosition;
 
-    void Start() {
-        tmpObject = GetComponent<TMP_Text>();
-        panel = GetComponentInParent<GameObject>();
+    public InputActionReference continueDialogueAction;
+    private void Awake() {
+        continueDialogueAction.action.Enable();
+        continueDialogueAction.action.performed += continueDialogue;
     }
 
-    void startDialogue(string[] dialogue) {
-        panel.SetActive(true);
-        // play audio cue
-        if (dialogue != null && dialogue.Length > 0) {
+    private void OnDestroy() {
+        continueDialogueAction.action.Disable();
+        continueDialogueAction.action.performed -= continueDialogue;
+    }
+
+    void Start()
+    {   
+        tmpObject = GetComponentInChildren<TMP_Text>();
+    }
+
+    public void startDialogue(string[] dialogue)
+    {
+        this.dialogue = dialogue;
+        this.gameObject.SetActive(true);
+        // TODO: play audio cue
+        if (dialogue != null && dialogue.Length > 0)
+        {
             dialoguePosition = 0;
             tmpObject.text = dialogue[dialoguePosition];
         }
     }
 
-    void continueDialogue() {
+    void continueDialogue(InputAction.CallbackContext context)
+    {
         // set text on panel to the next dialogue option
-        if (dialoguePosition <= dialogue.Length) {
+        if (dialoguePosition < dialogue.Length - 1)
+        {
             dialoguePosition++;
             tmpObject.text = dialogue[dialoguePosition];
-        } else {
+        }
+        else
+        {
             stopDialogue();
         }
     }
 
-    void stopDialogue() {
-        panel.SetActive(false);
-        // play audio cue
+    void stopDialogue()
+    {
+        this.gameObject.SetActive(false);
+        // TODO: play audio cue
     }
 }
