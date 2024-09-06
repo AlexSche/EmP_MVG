@@ -5,15 +5,21 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/NoVRScene.unity
     guid: b521fcd1162b4d343bc4a331f6af374d
-  - enabled: 0
-    path: Assets/Scenes/AlexScene.unity
-    guid: d0aa3b702f43c134d9db24bbdfd9cbc2
+  - enabled: 1
+    path: Assets/Scenes/LsSecondLevel.unity
+    guid: 980ab31137baef646ad002b6059e796a
   - enabled: 1
     path: Assets/Scenes/SecondLevel.unity
     guid: 8867e3ac9b5ac3d4c83d895972a366fb
+  - enabled: 1
+    path: Assets/Scenes/LsAlexScene.unity
+    guid: 2eaa69d3215c6424b9da5d13cc6d1532
+  - enabled: 1
+    path: Assets/Scenes/AlexScene.unity
+    guid: d0aa3b702f43c134d9db24bbdfd9cbc2
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: bfa1182bd221b4ca89619141f66f1260,
       type: 2}
