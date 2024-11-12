@@ -125,6 +125,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Dialogue",
+                    "type": "Button",
+                    "id": "50174859-2ab6-46bd-9407-90cba4215a16",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -136,6 +145,17 @@
                     "processors": "StickDeadzone,ScaleVector2(x=0.5,y=0.5)",
                     "groups": "",
                     "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3f8919ba-8e80-4857-8124-ef37343ce126",
+                    "path": "<XRController>{LeftHand}/{PrimaryButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dialogue",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

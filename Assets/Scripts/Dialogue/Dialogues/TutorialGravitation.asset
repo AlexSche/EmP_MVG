@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06e618a7049ecd441bee573ba1d4b8cf, type: 3}
+  m_Name: TutorialGravitation
+  m_EditorClassIdentifier: 
+  text:
+  - In diesem einfach Raum kannst du die erste Besonderheit beobachten.
+  - "Die Durchg\xE4nge haben etwas besonderes an sich."
+  - "Geh durch die T\xFCr und schau dich um. Fall nur nicht von der Decke."

@@ -147,6 +147,15 @@ public partial class @EmPControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Dialogue"",
+                    ""type"": ""Button"",
+                    ""id"": ""50174859-2ab6-46bd-9407-90cba4215a16"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -158,6 +167,17 @@ public partial class @EmPControls: IInputActionCollection2, IDisposable
                     ""processors"": ""StickDeadzone,ScaleVector2(x=0.5,y=0.5)"",
                     ""groups"": """",
                     ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3f8919ba-8e80-4857-8124-ef37343ce126"",
+                    ""path"": ""<XRController>{LeftHand}/{PrimaryButton}"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dialogue"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -174,6 +194,7 @@ public partial class @EmPControls: IInputActionCollection2, IDisposable
         // VR-LeftController
         m_VRLeftController = asset.FindActionMap("VR-LeftController", throwIfNotFound: true);
         m_VRLeftController_Move = m_VRLeftController.FindAction("Move", throwIfNotFound: true);
+        m_VRLeftController_Dialogue = m_VRLeftController.FindAction("Dialogue", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -298,11 +319,13 @@ public partial class @EmPControls: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_VRLeftController;
     private List<IVRLeftControllerActions> m_VRLeftControllerActionsCallbackInterfaces = new List<IVRLeftControllerActions>();
     private readonly InputAction m_VRLeftController_Move;
+    private readonly InputAction m_VRLeftController_Dialogue;
     public struct VRLeftControllerActions
     {
         private @EmPControls m_Wrapper;
         public VRLeftControllerActions(@EmPControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_VRLeftController_Move;
+        public InputAction @Dialogue => m_Wrapper.m_VRLeftController_Dialogue;
         public InputActionMap Get() { return m_Wrapper.m_VRLeftController; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -315,6 +338,9 @@ public partial class @EmPControls: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
+            @Dialogue.started += instance.OnDialogue;
+            @Dialogue.performed += instance.OnDialogue;
+            @Dialogue.canceled += instance.OnDialogue;
         }
 
         private void UnregisterCallbacks(IVRLeftControllerActions instance)
@@ -322,6 +348,9 @@ public partial class @EmPControls: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
+            @Dialogue.started -= instance.OnDialogue;
+            @Dialogue.performed -= instance.OnDialogue;
+            @Dialogue.canceled -= instance.OnDialogue;
         }
 
         public void RemoveCallbacks(IVRLeftControllerActions instance)
@@ -348,5 +377,6 @@ public partial class @EmPControls: IInputActionCollection2, IDisposable
     public interface IVRLeftControllerActions
     {
         void OnMove(InputAction.CallbackContext context);
+        void OnDialogue(InputAction.CallbackContext context);
     }
 }
