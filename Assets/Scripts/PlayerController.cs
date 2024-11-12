@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour, ICharacterController
     protected Vector3 _initialLightDirection;
     protected Material _fsMat;
     protected int _lightDirectionID;
+    protected int _fadeToBlackID;
 
     // Start is called before the first frame update
     public virtual void Start()
@@ -39,6 +40,7 @@ public class PlayerController : MonoBehaviour, ICharacterController
         {
             _fsMat = fsp.passMaterial;
             _lightDirectionID = Shader.PropertyToID("_LightDirection");
+            _fadeToBlackID = Shader.PropertyToID("_fadeToBlack");
             _initialLightDirection = _fsMat.GetVector(_lightDirectionID);
         }
     }

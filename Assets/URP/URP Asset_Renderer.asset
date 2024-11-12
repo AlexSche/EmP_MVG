@@ -1,23 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7333580215641066606
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b00045f12942b46c698459096c89274e, type: 3}
-  m_Name: FullScreenPassRendererFeature
-  m_EditorClassIdentifier: 
-  m_Active: 0
-  passMaterial: {fileID: -876546973899608171, guid: 423f2c80b0fa03f4a94bcee3d37f638b,
-    type: 3}
-  injectionPoint: 600
-  requirements: 4
-  passIndex: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52,8 +34,7 @@ MonoBehaviour:
   m_RendererFeatures:
   - {fileID: 7890892674678846303}
   - {fileID: 2317144710617367257}
-  - {fileID: -7333580215641066606}
-  m_RendererFeatureMap: 5ff3f6721415826dd9028669d626282092b3e11aa6e3399a
+  m_RendererFeatureMap: 5ff3f6721415826dd9028669d6262820
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -111,7 +92,7 @@ MonoBehaviour:
   m_Active: 1
   passMaterial: {fileID: -876546973899608171, guid: a35e24cfb7420b5499040893481878c8,
     type: 3}
-  injectionPoint: 600
+  injectionPoint: 450
   requirements: 4
   passIndex: 0
 --- !u!114 &7890892674678846303
@@ -136,8 +117,8 @@ MonoBehaviour:
     Intensity: 0.15
     DirectLightingStrength: 0.242
     Radius: 0.5
-    Samples: 0
-    BlurQuality: 0
+    Samples: 2
+    BlurQuality: 1
     Falloff: 999
     SampleCount: -1
   m_BlueNoise256Textures:

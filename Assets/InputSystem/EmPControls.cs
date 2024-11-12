@@ -155,7 +155,7 @@ public partial class @EmPControls: IInputActionCollection2, IDisposable
                     ""id"": ""081b4a17-07eb-4333-a0ad-a945116602e3"",
                     ""path"": ""<XRController>{LeftHand}/{Primary2DAxis}"",
                     ""interactions"": """",
-                    ""processors"": ""StickDeadzone,NormalizeVector2,ScaleVector2(x=0.5,y=0.5)"",
+                    ""processors"": ""StickDeadzone,ScaleVector2(x=0.5,y=0.5)"",
                     ""groups"": """",
                     ""action"": ""Move"",
                     ""isComposite"": false,
