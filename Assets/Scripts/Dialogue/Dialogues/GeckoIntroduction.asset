@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 06e618a7049ecd441bee573ba1d4b8cf, type: 3}
-  m_Name: TutorialStart
+  m_Name: GeckoIntroduction
   m_EditorClassIdentifier: 
   text:
-  - In diesem einfach Raum kannst du die erste Besonderheit beobachten.
-  - "Die Durchg\xE4nge haben etwas besonderes an sich."
-  - "Geh durch die T\xFCr und schau dich um."
+  - Hallo, ich bin Gescho. Du bist nun wohl leider auch hier.
+  - An diesem seltsamen Ort kann sogar ich als Gecko mich nur schwer orientieren.
+  - "Vielleicht kannst du mir dabei helfen die gr\xFCnen Ausg\xE4nge zu erreichen."

@@ -9,7 +9,7 @@ public class GeckoController : MonoBehaviour
     Animator animator;
     [SerializeField] LayerMask groundLayer;
     Vector3 destPoint;
-    
+
     [SerializeField] float walkingRange = 9;
     private bool isIdling = false;
     private bool isLookingForDestination;
@@ -22,26 +22,35 @@ public class GeckoController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        walkAround();
+        if (agent != null)
+        {
+            walkAround();
+        }
     }
 
-    void walkAround() {
-        if (isLookingForDestination) {
+    void walkAround()
+    {
+        if (isLookingForDestination)
+        {
             searchForDestination();
         }
-        if (!isLookingForDestination && !(Vector3.Distance(transform.position, destPoint) < 0.5f)) {
+        if (!isLookingForDestination && !(Vector3.Distance(transform.position, destPoint) < 0.5f))
+        {
             agent.SetDestination(destPoint);
             animator.SetBool("isWalking", true);
         }
-        if(Vector3.Distance(transform.position, destPoint) < 0.5f) {
-            if (!isIdling) {
-            isIdling = true;
-            StartCoroutine(startIdlingForSeconds(6f));
-            }   
+        if (Vector3.Distance(transform.position, destPoint) < 0.5f)
+        {
+            if (!isIdling)
+            {
+                isIdling = true;
+                StartCoroutine(startIdlingForSeconds(6f));
+            }
         }
     }
 
-    void searchForDestination() {
+    void searchForDestination()
+    {
         float z = Random.Range(-walkingRange, walkingRange);
         float x = Random.Range(-walkingRange, walkingRange);
 
@@ -52,7 +61,8 @@ public class GeckoController : MonoBehaviour
         }
     }
 
-    private IEnumerator startIdlingForSeconds(float waitTime) {
+    private IEnumerator startIdlingForSeconds(float waitTime)
+    {
         animator.SetBool("isWalking", false);
         yield return new WaitForSeconds(waitTime);
         isLookingForDestination = true;
