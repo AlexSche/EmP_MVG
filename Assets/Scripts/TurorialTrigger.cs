@@ -8,13 +8,7 @@ public class TutorialTrigger : MonoBehaviour
     public GeckoTalking geckoTalking;
     private Collider collider;
     private Collider playerCollider;
-    public string[] tutorialDialogue = new string[] {
-        "Ahhhhhh endlich ist jemand hier!!! Ich brauche deine Hilfe.",
-        "Bevor du mir helfen kannst, versuch dich erst einmal zu orientieren.",
-        "Das Ziel ist es den Ausgang aus den verschiedenen Räumen zu finden.",
-        "Um den Ausgang zu erreichen kannst du dich wie ich an Wänden und Decken bewegen, wenn du durch verschiedene Durchgänge gehst.",
-        "Probier es doch einfach mal aus und geh durch den Durchgang."
-        };
+    public Dialogue tutorialDialogue;
     private bool tutorialStarted = false;
     void Awake()
     {

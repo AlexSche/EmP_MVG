@@ -632,11 +632,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueText: {fileID: 1722912747}
   geckoTalking: {fileID: 698532331}
-  tutorialDialogue:
-  - Ahhhhhh endlich ist jemand hier!!! Ich brauche deine Hilfe.
-  - Aber bevor du mir helfen kannst, willst du bestimmt wissen was hier passiert.
-  - "Also ganz einfach gesagt. Du kannst an der Decke und den W\xE4nden laufen"
-  - Probiers doch einfach mal aus und lauf durch den Durchgang.
+  tutorialDialogue: {fileID: 11400000, guid: 558ccee33b685a4489e19b5d3e32b7a8, type: 2}
 --- !u!4 &810363543 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5046444728961956717, guid: 93263942b6f807e4b8b6f0b17d0846c2,
@@ -1360,6 +1356,16 @@ PrefabInstance:
       propertyPath: m_Center.y
       value: 0.4
       objectReference: {fileID: 0}
+    - target: {fileID: 6477499884264364006, guid: 2901a823999e17340b2c2251b938d68f,
+        type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 8300000, guid: cee89064f1df11849b8ce09543a9a51d, type: 3}
+    - target: {fileID: 6477499884264364006, guid: 2901a823999e17340b2c2251b938d68f,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: cee89064f1df11849b8ce09543a9a51d, type: 3}
     - target: {fileID: 6921499193432827946, guid: 2901a823999e17340b2c2251b938d68f,
         type: 3}
       propertyPath: m_RequestedTrackingOriginMode

@@ -7,7 +7,7 @@ public class DialogueText : MonoBehaviour
 {
     private TextWriter textWriter;
     private TMP_Text tmpObject;
-    private string[] dialogue;
+    private Dialogue dialogue;
     private int dialoguePosition;
     private AudioSource audioSourceNotification;
     private AudioSource audioSourceVoice;
@@ -31,7 +31,7 @@ public class DialogueText : MonoBehaviour
         continueDialogueAction.action.performed -= continueDialogue;
     }
 
-    public void startDialogue(string[] dialogue, GeckoTalking geckoTalking)
+    public void startDialogue(Dialogue dialogue, GeckoTalking geckoTalking)
     {
         this.dialogue = dialogue;
         this.gecko = geckoTalking;
@@ -42,10 +42,10 @@ public class DialogueText : MonoBehaviour
     void continueDialogue(InputAction.CallbackContext context)
     {
         // set text on panel to the next dialogue option
-        if (dialoguePosition < dialogue.Length - 1)
+        if (dialoguePosition < dialogue.text.Length - 1)
         {
             dialoguePosition++;
-            useTextwriter(tmpObject, dialogue[dialoguePosition]);
+            useTextwriter(tmpObject, dialogue.text[dialoguePosition]);
         }
         else
         {
@@ -66,16 +66,16 @@ public class DialogueText : MonoBehaviour
         tmpObject.text = "Sprache wird übersetzt...";
         audioSourceNotification.Play();
         yield return new WaitForSeconds(2);
-        if (dialogue != null && dialogue.Length > 0)
+        if (dialogue != null && dialogue.text.Length > 0)
         {
             dialoguePosition = 0;
-            useTextwriter(tmpObject, dialogue[dialoguePosition]);
+            useTextwriter(tmpObject, dialogue.text[dialoguePosition]);
         }
     }
 
 
     void useTextwriter(TMP_Text tmpObject, string textToWrite) {
         gecko.speakGibberishOnLoop();
-        textWriter.addWriter(tmpObject, dialogue[dialoguePosition], gecko.stopTalking);
+        textWriter.addWriter(tmpObject, dialogue.text[dialoguePosition], gecko.stopTalking);
     }
 }
