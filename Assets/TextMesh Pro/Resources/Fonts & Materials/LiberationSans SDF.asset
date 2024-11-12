@@ -9,6 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: LiberationSans SDF Material
   m_Shader: {fileID: 4800000, guid: fe393ace9b354375a9cb14cdbbc28be4, type: 3}
+  m_ShaderKeywords: 
   m_Parent: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
   m_ModifiedSerializedProperties: 2
   m_ValidKeywords: []
@@ -437,7 +438,7 @@ MonoBehaviour:
     m_GlyphRect:
       m_X: 912
       m_Y: 262
-      m_Width: 41
+      m_Width: 41s
       m_Height: 61
     m_Scale: 1
     m_AtlasIndex: 0
