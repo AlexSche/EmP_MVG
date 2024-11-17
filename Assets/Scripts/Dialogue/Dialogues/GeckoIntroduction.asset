@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: GeckoIntroduction
   m_EditorClassIdentifier: 
   text:
-  - Hallo, ich bin Gescho. Du bist nun wohl leider auch hier.
+  - "Hallo, ich bin Gescho. Sch\xF6n, dass du auch hier bist."
   - An diesem seltsamen Ort kann sogar ich als Gecko mich nur schwer orientieren.
   - "Vielleicht kannst du mir dabei helfen die gr\xFCnen Ausg\xE4nge zu erreichen."

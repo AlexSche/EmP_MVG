@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text:
   - In diesem einfach Raum kannst du die erste Besonderheit beobachten.
-  - "Die Durchg\xE4nge haben etwas besonderes an sich."
-  - "Geh durch die T\xFCr und schau dich um. Fall nur nicht von der Decke."
+  - Der Durchgang vor dir ist so eine Besonderheit.
+  - Geh durch den Durchgang und schau dich um. Fall nur nicht von der Decke.

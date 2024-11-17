@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour, ICharacterController
         {
             _fsMat = fsp.passMaterial;
             _lightDirectionID = Shader.PropertyToID("_LightDirection");
-            _fadeToBlackID = Shader.PropertyToID("_fadeToBlack");
+            //_fadeToBlackID = Shader.PropertyToID("_fadeToBlack");
             _initialLightDirection = _fsMat.GetVector(_lightDirectionID);
         }
     }
