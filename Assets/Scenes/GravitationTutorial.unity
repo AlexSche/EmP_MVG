@@ -373,6 +373,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 715208184}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &396209663 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 2759370860325983252, guid: 93263942b6f807e4b8b6f0b17d0846c2,
+    type: 3}
+  m_PrefabInstance: {fileID: 853217954}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &431553318 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4021786114197285689, guid: c2174b4004eb1dc44920b783853a53b9,
@@ -735,6 +741,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneIndex: 2
+  triggerCollider: {fileID: 396209663}
 --- !u!4 &893306518 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4021786114197285689, guid: c2174b4004eb1dc44920b783853a53b9,

@@ -904,6 +904,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneIndex: 1
+  triggerCollider: {fileID: 2127881915}
 --- !u!1 &869021275
 GameObject:
   m_ObjectHideFlags: 0
@@ -1362,6 +1363,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: XRRig(Player)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1665273952407274760, guid: 2901a823999e17340b2c2251b938d68f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.1329999
       objectReference: {fileID: 0}
     - target: {fileID: 3279224756601904773, guid: 2901a823999e17340b2c2251b938d68f,
         type: 3}
@@ -1921,6 +1927,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d903b4dafa89a784a8a4b4e3d376c29e, type: 3}
+--- !u!65 &2127881915 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 2759370860325983252, guid: 93263942b6f807e4b8b6f0b17d0846c2,
+    type: 3}
+  m_PrefabInstance: {fileID: 853217954}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
