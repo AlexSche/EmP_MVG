@@ -12,7 +12,13 @@ EditorBuildSettings:
     path: Assets/Scenes/GravitationTutorial.unity
     guid: b9ab031377c0e144c8efa1b1252c6eb0
   - enabled: 1
-    path: Assets/Scenes/LsSecondLevel.unity
+    path: Assets/Scenes/CubeTutorial.unity
+    guid: a450a0b6e344e7bb4a37438b05190061
+  - enabled: 1
+    path: Assets/Scenes/FirstLevel.unity
+    guid: a71408eb71a2db347a4aa00e67967b92
+  - enabled: 1
+    path: Assets/Scenes/LoadingScreens/LsSecondLevel.unity
     guid: 980ab31137baef646ad002b6059e796a
   - enabled: 1
     path: Assets/Scenes/SecondLevel.unity
