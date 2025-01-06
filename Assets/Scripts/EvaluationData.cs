@@ -57,5 +57,6 @@ public class EvaluationData : MonoBehaviour
 
     public void doorPassed() {
         doorsPassed++;
+        UnityEngine.Debug.Log(doorsPassed);
     }
 }

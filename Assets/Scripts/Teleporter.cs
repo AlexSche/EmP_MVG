@@ -11,7 +11,7 @@ public class Teleporter : MonoBehaviour
     private KinematicCharacterMotor _player;
     private Collider _playerCollider;
     public Transform teleportTarget;
-
+    public EvaluationData evaluationData;
     private PlayerController _playerController;
     // Start is called before the first frame update
     void Start()
@@ -19,6 +19,7 @@ public class Teleporter : MonoBehaviour
         _playerController = FindFirstObjectByType<PlayerController>(FindObjectsInactive.Include);
         _player = _playerController.GetComponent<KinematicCharacterMotor>();
         _playerCollider = _playerController.GetComponent<Collider>();
+        evaluationData = GameObject.Find("EvaluationData").GetComponent<EvaluationData>();
     }
     
     void FixedUpdate()
@@ -36,6 +37,7 @@ public class Teleporter : MonoBehaviour
             _player.SetPosition(targetPosition);
             _player.SetRotation(deltaRotation * _player.transform.rotation);
             _playerController.UpdateLightDirection(playerTransform.TransformDirection(localLightDir));
+            evaluationData.doorPassed();
         }
     }
 

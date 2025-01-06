@@ -26,6 +26,7 @@ public class VRPlayerController : PlayerController
     public override void Start()
     {
         base.Start();
+        evaluationData = GameObject.Find("EvaluationData").GetComponent<EvaluationData>();
     }
 
     protected override void SetupControls()
@@ -71,7 +72,9 @@ public class VRPlayerController : PlayerController
             Debug.Log("Is not moving");
             evaluationData.stopTimeSpentMoving();
             movement = _controls.Ingame.Move.ReadValue<Vector2>();
-        } else {
+        }
+        else
+        {
             Debug.Log("Is moving");
             evaluationData.startTimeSpentMoving();
         }
