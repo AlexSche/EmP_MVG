@@ -30,7 +30,6 @@ public class SceneSwitcher : MonoBehaviour
     {
         if (triggerCollider.bounds.Intersects(playerCollider.bounds))
         {
-            Debug.Log("PLAYER INTERSECTED!");
             SceneManager.LoadScene(sceneIndex);
             evaluationData.saveEvaluationData("_zwischenspeicher" + Guid.NewGuid().ToString());
         }
