@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,7 +22,7 @@ public class SceneSwitcher : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             SceneManager.LoadScene(sceneIndex);
-            evaluationData.saveEvaluationData();
+            evaluationData.saveEvaluationData("_zwischenspeicher" + Guid.NewGuid().ToString());
         }
     }
 
@@ -29,8 +30,9 @@ public class SceneSwitcher : MonoBehaviour
     {
         if (triggerCollider.bounds.Intersects(playerCollider.bounds))
         {
+            Debug.Log("PLAYER INTERSECTED!");
             SceneManager.LoadScene(sceneIndex);
-            evaluationData.saveEvaluationData();
+            evaluationData.saveEvaluationData("_zwischenspeicher" + Guid.NewGuid().ToString());
         }
     }
 

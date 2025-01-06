@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SerializeEvaluation
@@ -13,8 +14,9 @@ public class SerializeEvaluation
         this.dataFileName = dataFileName;
     }
 
-    public void Save(EvaluationData evaluationData)
+    public void Save(EvaluationData evaluationData, string fileID)
     {
+        dataFileName = dataFileName + fileID + ".json";
         string fullPath = Path.Combine(dataDirPath, dataFileName);
         try
         {

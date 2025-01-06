@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class EvaluationData : MonoBehaviour
 {
-    private string fileName = "evaluationDataMVG3.json";
+    private string fileName = "evaluationDataMVG3";
     private SerializeEvaluation serializeEvaluation;
     public static EvaluationData Instance;
     // Daten die wir erfassen wollen verschiedene Zeiten, Anzahl Durchgänge
@@ -66,9 +66,15 @@ public class EvaluationData : MonoBehaviour
         UnityEngine.Debug.Log(doorsPassed);
     }
 
-    public void saveEvaluationData() {
+    public void stopAllTimer() {
+        timeOverall.Stop();
+        timeSpentMoving.Stop();
+        timeSpentStandingStill.Stop();
+    }
+
+    public void saveEvaluationData(string id) {
         convertData();
-        serializeEvaluation.Save(this);
+        serializeEvaluation.Save(this, id);
     }
 
     private void convertData() {
