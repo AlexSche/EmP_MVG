@@ -17,6 +17,8 @@ public class VRPlayerController : PlayerController
     public Transform trackedCamera;
     public XROrigin xrOrigin;
 
+    public EvaluationData evaluationData;
+
     private XRInputSubsystem _xrInputSubsystem;
 
     private float _currentFadeValue = 0f;
@@ -41,15 +43,15 @@ public class VRPlayerController : PlayerController
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     //Every frame while the mouse is moved
     void OnCameraMove(InputAction.CallbackContext context)
     {
-        
+
     }
-    
+
     //Whenever jump is pressed
     void OnJump(InputAction.CallbackContext context)
     {
@@ -65,12 +67,18 @@ public class VRPlayerController : PlayerController
         //Read current movement input (already normalized) and transform it to world space
         Vector2 movement = _controls.VRLeftController.Move.ReadValue<Vector2>();
         if (movement == Vector2.zero)
+        {
+            Debug.Log("Is not moving");
+            evaluationData.stopTimeSpentMoving();
             movement = _controls.Ingame.Move.ReadValue<Vector2>();
-
+        } else {
+            Debug.Log("Is moving");
+            evaluationData.startTimeSpentMoving();
+        }
         //Apply gravity to vertical velocity if character is not grounded
-        if(!_characterMotor.GroundingStatus.IsStableOnGround)
+        if (!_characterMotor.GroundingStatus.IsStableOnGround)
             _yVelocity += gravity * deltaTime;
-        
+
         //Clamp to terminal velocity
         if (_yVelocity < terminalVelocity)
             _yVelocity = terminalVelocity;
@@ -83,7 +91,7 @@ public class VRPlayerController : PlayerController
         Quaternion yAxis = Quaternion.Euler(new Vector3(0, localCameraRotation.y, 0));
         Vector3 rotatedMovement = new Vector3(movement.x, 0, movement.y);
         rotatedMovement = yAxis * rotatedMovement;
-        currentVelocity = transform.TransformDirection(new Vector3(rotatedMovement.x, _yVelocity, rotatedMovement.z)*5);
+        currentVelocity = transform.TransformDirection(new Vector3(rotatedMovement.x, _yVelocity, rotatedMovement.z) * 5);
         var currentOffset = findTrackingOffset();
         if (currentOffset.magnitude <= 0.1f && _currentFadeValue == 0f) return;
         _currentFadeValue = Mathf.Clamp(Mathf.InverseLerp(0.1f, 0.15f, currentOffset.magnitude), 0f, 1f);

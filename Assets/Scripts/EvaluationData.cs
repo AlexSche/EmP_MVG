@@ -9,10 +9,10 @@ public class EvaluationData : MonoBehaviour
     public static EvaluationData Instance;
     // Daten die wir erfassen wollen verschiedene Zeiten, Anzahl Durchgänge
     // Wurden bestimmte Objekte länger angeschaut und haben bei der Orientierung geholfen?
-    private Stopwatch timeOverall = new Stopwatch();
+    private Stopwatch timeOverall;
     private int doorsPassed = 0;
-    private Stopwatch timeSpentMoving = new Stopwatch();
-    private Stopwatch timeSpentStandingStill = new Stopwatch();
+    private Stopwatch timeSpentMoving;
+    private Stopwatch timeSpentStandingStill ;
     private void Awake()
     {
         if (Instance != null)
@@ -22,6 +22,10 @@ public class EvaluationData : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        timeOverall = new Stopwatch();
+        timeSpentMoving = new Stopwatch();
+        timeSpentStandingStill = new Stopwatch();
+        startTimeOverall();
     }
 
 
@@ -38,23 +42,17 @@ public class EvaluationData : MonoBehaviour
     }
 
     public void startTimeSpentMoving() {
+        timeSpentStandingStill.Stop();
+        UnityEngine.Debug.Log(timeSpentStandingStill.Elapsed);
         timeSpentMoving.Start();
         UnityEngine.Debug.Log(timeSpentMoving.Elapsed);
     }
 
     public void stopTimeSpentMoving() {
-        timeSpentMoving.Stop();
-        UnityEngine.Debug.Log(timeSpentMoving.Elapsed);
-    }
-
-    public void startTimeSpentStandingStill() {
         timeSpentStandingStill.Start();
         UnityEngine.Debug.Log(timeSpentStandingStill.Elapsed);
-    }
-
-    public void stopTimeSpentStandingStill() {
-        timeSpentStandingStill.Stop();
-        UnityEngine.Debug.Log(timeSpentStandingStill.Elapsed);
+        timeSpentMoving.Stop();
+        UnityEngine.Debug.Log(timeSpentMoving.Elapsed);
     }
 
     public void doorPassed() {
