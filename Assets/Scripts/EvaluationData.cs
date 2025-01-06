@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -6,13 +7,18 @@ using UnityEngine;
 
 public class EvaluationData : MonoBehaviour
 {
+    private string fileName = "evaluationDataMVG3.json";
+    private SerializeEvaluation serializeEvaluation;
     public static EvaluationData Instance;
     // Daten die wir erfassen wollen verschiedene Zeiten, Anzahl Durchgänge
     // Wurden bestimmte Objekte länger angeschaut und haben bei der Orientierung geholfen?
-    private Stopwatch timeOverall;
-    private int doorsPassed = 0;
-    private Stopwatch timeSpentMoving;
-    private Stopwatch timeSpentStandingStill ;
+    public Stopwatch timeOverall;
+    public Stopwatch timeSpentMoving;
+    public Stopwatch timeSpentStandingStill;
+    public int doorsPassed = 0;
+    public double timeOverallInSeconds = 0;
+    public double timeSpentMovingInSeconds = 0;
+    public double timeSpentStandingStillInSeconds = 0;
     private void Awake()
     {
         if (Instance != null)
@@ -25,38 +31,49 @@ public class EvaluationData : MonoBehaviour
         timeOverall = new Stopwatch();
         timeSpentMoving = new Stopwatch();
         timeSpentStandingStill = new Stopwatch();
+        UnityEngine.Debug.Log(Application.persistentDataPath);
+        serializeEvaluation = new SerializeEvaluation(Application.persistentDataPath, fileName);
         startTimeOverall();
+        fileName = fileName + DateTime.Now;
     }
 
 
     public void startTimeOverall()
     {
         timeOverall.Start();
-        UnityEngine.Debug.Log(timeOverall.Elapsed);
     }
 
     public void stopTimeOverall()
     {
         timeOverall.Stop();
-        UnityEngine.Debug.Log(timeOverall.Elapsed);
     }
 
-    public void startTimeSpentMoving() {
+    public void startTimeSpentMoving()
+    {
         timeSpentStandingStill.Stop();
-        UnityEngine.Debug.Log(timeSpentStandingStill.Elapsed);
         timeSpentMoving.Start();
-        UnityEngine.Debug.Log(timeSpentMoving.Elapsed);
     }
 
-    public void stopTimeSpentMoving() {
+    public void stopTimeSpentMoving()
+    {
         timeSpentStandingStill.Start();
-        UnityEngine.Debug.Log(timeSpentStandingStill.Elapsed);
         timeSpentMoving.Stop();
-        UnityEngine.Debug.Log(timeSpentMoving.Elapsed);
     }
 
-    public void doorPassed() {
+    public void doorPassed()
+    {
         doorsPassed++;
         UnityEngine.Debug.Log(doorsPassed);
+    }
+
+    public void saveEvaluationData() {
+        convertData();
+        serializeEvaluation.Save(this);
+    }
+
+    private void convertData() {
+        timeOverallInSeconds = timeOverall.Elapsed.TotalSeconds;
+        timeSpentMovingInSeconds = timeSpentMoving.Elapsed.TotalSeconds;
+        timeSpentStandingStillInSeconds = timeSpentStandingStill.Elapsed.TotalSeconds;
     }
 }

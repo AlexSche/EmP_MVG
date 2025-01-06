@@ -8,10 +8,12 @@ public class SceneSwitcher : MonoBehaviour
     public int sceneIndex;
     public Collider triggerCollider;
     private Collider playerCollider;
+    private EvaluationData evaluationData;
     void Start()
     {
         var _playerController = FindFirstObjectByType<PlayerController>(FindObjectsInactive.Include);
         playerCollider = _playerController.GetComponent<Collider>();
+        evaluationData = GameObject.Find("EvaluationData").GetComponent<EvaluationData>();
     }
 
     void OnTriggerEnter(Collider other)
@@ -19,7 +21,7 @@ public class SceneSwitcher : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             SceneManager.LoadScene(sceneIndex);
-            Debug.Log("Loading next Scene");
+            evaluationData.saveEvaluationData();
         }
     }
 
@@ -28,7 +30,7 @@ public class SceneSwitcher : MonoBehaviour
         if (triggerCollider.bounds.Intersects(playerCollider.bounds))
         {
             SceneManager.LoadScene(sceneIndex);
-            Debug.Log("Loading next Scene");
+            evaluationData.saveEvaluationData();
         }
     }
 

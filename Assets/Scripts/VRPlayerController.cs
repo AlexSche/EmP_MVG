@@ -69,13 +69,11 @@ public class VRPlayerController : PlayerController
         Vector2 movement = _controls.VRLeftController.Move.ReadValue<Vector2>();
         if (movement == Vector2.zero)
         {
-            Debug.Log("Is not moving");
             evaluationData.stopTimeSpentMoving();
             movement = _controls.Ingame.Move.ReadValue<Vector2>();
         }
         else
         {
-            Debug.Log("Is moving");
             evaluationData.startTimeSpentMoving();
         }
         //Apply gravity to vertical velocity if character is not grounded
